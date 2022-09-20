@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://pro.fontawesome.com/releases/v5.2.0/css/all.css"
+    />
+    <link rel="stylesheet" href="style2.css" />
+
+    <script
+      src="https://code.jquery.com/jquery-3.3.1.min.js"
+      integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+      crossorigin="anonymous"
+    ></script>
+    <script src="./libs/socket.io.js"></script>
+    <!-- Bootstrap core JavaScript -->
+    <script src="vendor/jquery/jquery.min.js"></script>
+    <!-- <script src="vendor/jquery/jquery.i18n.properties.js"></script> -->
+    <script src="vendor/jquery/jquery.i18n.properties.min.js"></script>
+    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="vendor/jquery/settings.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script src="./serverConfig.js"></script>
+    <script src="./openvidu-browser-2.18.0.js"></script>
+    <!-- <script src="./OVB.js"></script> -->
+    <script src="./app.js?v=001"></script>
+
+    <title data-locale="systemTitle">WebRTC - Radio Teacher</title>
+  </head>
+  <body>
+    <h1 data-locale="systemTitle">WebRTC - Radio Teacher</h1>
+    <div id="video-container"></div>
+    <div class="menu">
+      <span class="icon">
+        <i class="fas fa-user"></i>
+      </span>
+      <div class="usermenu">
+        <!-- <div>: <input type="text" id="loginUserName" name="loginUserName" disabled class="login-user-name"></div> -->
+        <!-- <a href="#" id="logout">Logout</a> -->
+        <div>: <span id="loginUserName" class="login-user-name"></span></div>
+        <div class="modifyAccount">
+          <div id="account-open" data-locale="Change Password">
+            Change Password
+          </div>
+          <div id="logout" data-locale="Logout">Logout</div>
+        </div>
+      </div>
+      <div class="language">
+        <button id="thaiBtn"></button>
+        <button id="enBtn"></button>
+      </div>
+    </div>
+
+    <main>
+      <section class="left">
+        <div class="left-top border">
+          <span class="corner top-left-corner"></span>
+          <span class="corner top-right-corner"></span>
+          <span class="corner bottom-left-corner"></span>
+          <span class="corner bottom-right-corner"></span>
+
+          <div class="btn-circle">
+            <button class="green" id="speek">
+              <svg
+                data-name="Layer 1"
+                viewBox="0 0 512 512"
+                xmlns="https://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M0 123a2.7 2.7 0 00.4-.91c.75-20.37 13.68-33.78 27.31-46.4 8-7.43 17.07-13.81 26-20.24 11.78-8.53 24.79-9.39 37.83-3.53A128.89 128.89 0 01115.3 65.5c4 2.94 6.73 8.21 8.76 13 9.13 21.4 13.6 44.12 17.86 66.86 1.25 6.71 1.88 13.53 3.31 20.19 1.86 8.58-.57 16-5.93 22.33-6.36 7.46-13.32 14.43-20.27 21.35a177.74 177.74 0 01-15.24 13.69c-3.39 2.67-3.54 5-2.1 8.84 7.74 20.37 18.47 39.11 30.59 57.08 29.8 44.22 68 79.59 113.51 107.19 7.8 4.73 7.81 4.35 14.67-1.29 11.3-9.31 22.58-18.67 34.26-27.48 8-6 17.07-7.17 27-4.24 27.47 8.12 54.79 16.5 80.29 29.87 7.95 4.17 13.85 9.76 17.37 18.36 4.17 10.21 8.8 20.13 8.63 31.48-.11 7-1.8 13.67-6.05 19.22-14.44 18.85-31.34 35-52.92 45.51-3.84 1.87-8 3-12 4.54h-22c-3.27-.45-6.54-.94-9.81-1.33-42.12-5.1-81.75-18.07-119.07-38.05-62.28-33.32-111.05-81-147.85-141a393.22 393.22 0 01-55.43-156.4C1.83 167.16.96 159.07 0 151zM270 0c10 1.31 20.14 2.36 30.14 4 98 15.91 179.79 91.4 203.67 188.46 3.52 14.31 4.9 29.15 7.28 43.75.26 1.61.6 3.2.91 4.8v18h-31.86c-.38-62.4-21.12-117-65.57-161.45S315.91 32.34 253 31.92V0z"
+                />
+                <path
+                  d="M415.24 260.21h-30.2C378.76 177.68 334.68 133.4 251.83 127V97c85.31-5.52 167.24 67.92 163.41 163.21zM287.51 261.43c2.77-24.46-14.83-39.75-36.8-36.79v-32.11a62.4 62.4 0 0132 5.29 63.31 63.31 0 0137.27 59c-.08 3.37-1 4.75-4.54 4.68-9.3-.18-18.63-.07-27.93-.07z"
+                />
+              </svg>
+            </button>
+            <h3 data-locale="Speak">Speak</h3>
+          </div>
+
+          <div class="btn-circle">
+            <button class="red" id="end">
+              <i class="fas fa-phone-slash"></i>
+            </button>
+            <h3 data-locale="END">END</h3>
+          </div>
+
+          <div class="btn-circle">
+            <button class="blue" id="start-bell">
+              <i class="fas fa-bell"></i>
+            </button>
+            <h3 data-locale="BELL">BELL</h3>
+          </div>
+
+          <div class="btn-circle">
+            <button class="blue" id="end-bell">
+              <i class="fas fa-bell"></i>
+            </button>
+            <h3 data-locale="BELL">BELL</h3>
+          </div>
+        </div>
+
+        <div class="left-bottom border">
+          <span class="corner top-left-corner"></span>
+          <span class="corner top-right-corner"></span>
+          <span class="corner bottom-left-corner"></span>
+          <span class="corner bottom-right-corner"></span>
+          <h3 class="heading-top" data-locale="studentList">Student list</h3>
+          <div class="list">
+            <div class="student-list" id="student-list"></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="middle">
+        <div class="middle-top border">
+          <span class="corner top-left-corner"></span>
+          <span class="corner top-right-corner"></span>
+          <span class="corner bottom-left-corner"></span>
+          <span class="corner bottom-right-corner"></span>
+          <h3 class="heading-top" data-locale="Media Center">Media Center</h3>
+
+          <!-- <form action="#">
+          </form> -->
+          <div class="row">
+            <input
+              type="text"
+              name="text"
+              id="searchText"
+              placeholder="Search..."
+            />
+            <button id="searchBtn">
+              <i class="fas fa-search"></i>
+            </button>
+          </div>
+          <div class="list">
+            <div class="media-list" id="media-list"></div>
+          </div>
+        </div>
+
+        <div class="middle-bottom border">
+          <span
+            id="audio-label"
+            style="
+              position: absolute;
+              color: wheat;
+              top: 0;
+              left: 50px;
+              font-size: large;
+            "
+          >
+          </span>
+
+          <span class="corner top-left-corner"></span>
+          <span class="corner top-right-corner"></span>
+          <span class="corner bottom-left-corner"></span>
+          <span class="corner bottom-right-corner"></span>
+          <h3 class="heading-top" data-locale="Control">Control</h3>
+          <button id="order" class="order">
+            <i class="fas fa-exchange"></i>
+          </button>
+
+          <button id="random" class="random">
+            <i class="fas fa-random"></i>
+          </button>
+
+          <div class="btn-circle">
+            <button id="stop">
+              <i class="fas fa-stop"></i>
+            </button>
+            <h3 data-locale="STOP">STOP</h3>
+          </div>
+
+          <div class="btn-circle">
+            <button style="color: rgb(47, 255, 158)" id="play">
+              <i class="fas fa-play"></i>
+            </button>
+            <h3 data-locale="Play">Play</h3>
+          </div>
+
+          <div class="btn-circle">
+            <button id="previous"><i class="fas fa-step-backward"></i></button>
+            <h3 data-locale="previous">previous</h3>
+          </div>
+
+          <div class="btn-circle">
+            <button id="next"><i class="fas fa-step-forward"></i></button>
+            <h3 data-locale="next">next</h3>
+          </div>
+        </div>
+      </section>
+
+      <section class="right">
+        <div class="right-top border">
+          <h3 class="heading-top" data-locale="Audio Upload">Audio Upload</h3>
+          <span class="corner top-left-corner"></span>
+          <span class="corner top-right-corner"></span>
+          <span class="corner bottom-left-corner"></span>
+          <span class="corner bottom-right-corner"></span>
+
+          <div class="btn-circle">
+            <button id="mp3-open">
+              <i class="fas fa-music"></i>
+            </button>
+            <h3 data-locale="Mp3">Mp3</h3>
+          </div>
+
+          <div class="btn-circle">
+            <button id="radio-open">
+              <i class="fas fa-microphone"></i>
+            </button>
+            <h3 data-locale="Radio">Radio</h3>
+          </div>
+        </div>
+
+        <div class="right-middle border">
+          <h3 class="heading-top" data-locale="Scheduled Play List">
+            Scheduled Play List
+          </h3>
+          <span class="corner top-left-corner"></span>
+          <span class="corner top-right-corner"></span>
+          <span class="corner bottom-left-corner"></span>
+          <span class="corner bottom-right-corner"></span>
+
+          <div class="list">
+            <div class="play-list" id="play-list"></div>
+          </div>
+        </div>
+
+        <div class="right-bottom border">
+          <h3 class="heading-top" data-locale="Classroom">Classroom</h3>
+          <span class="corner top-left-corner"></span>
+          <span class="corner top-right-corner"></span>
+          <span class="corner bottom-left-corner"></span>
+          <span class="corner bottom-right-corner"></span>
+          <span>
+            <ul style="display: inline; position: absolute; left: 20px">
+              <li
+                class="video-link"
+                style="
+                  background-color: blue;
+                  color: white;
+                  display: inline;
+                  border-radius: 2rem;
+                  padding: 10px;
+                  cursor: grab;
+                "
+              >
+                Link 1
+              </li>
+
+              <li
+                class="video-link"
+                style="
+                  background-color: blue;
+                  color: white;
+                  display: inline;
+                  border-radius: 2rem;
+                  padding: 10px;
+                  cursor: grab;
+                "
+              >
+                Link 2
+              </li>
+
+              <li
+                class="video-link"
+                style="
+                  background-color: blue;
+                  color: white;
+
+                  display: inline;
+                  border-radius: 2rem;
+                  padding: 10px;
+                  cursor: grab;
+                "
+              >
+                Link 3
+              </li>
+            </ul>
+          </span>
+          <iframe
+            src="https://www.11x1.com/?wss://www.11x1.com:9443/live/ch02.live.ts"
+            title="YouTube video player"
+            frameborder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowfullscreen
+          ></iframe>
+        </div>
+      </section>
+    </main>
+
+    <div class="popup-container" id="popup-account">
+      <div class="popup-account">
+        <button id="account-close" class="close">
+          <i class="far fa-window-close"></i>
+        </button>
+        <span data-locale="Change Password">Change Password</span>
+        <div class="row">
+          <label for="oldPassword" data-locale="*Old Password"
+            >*Old Password</label
+          >
+          <input type="password" name="oldPassword" id="oldPassword" />
+        </div>
+        <div class="row">
+          <label for="newPassword" data-locale="*New Password"
+            >*New Password</label
+          >
+          <input type="password" name="newPassword" id="newPassword" />
+        </div>
+        <div class="row">
+          <label for="confirmPassword" data-locale="*Confirm Password"
+            >*Confirm Password</label
+          >
+          <input type="password" name="confirmPassword" id="confirmPassword" />
+        </div>
+
+        <div class="buttons">
+          <input
+            class="input-button red"
+            type="reset"
+            name="account-reset"
+            id="account-reset"
+            value="RESET"
+          />
+          <input
+            class="input-button blue"
+            type="submit"
+            name="account-submit"
+            id="account-submit"
+            value="SUBMIT"
+          />
+        </div>
+      </div>
+    </div>
+
+    <div class="popup-container" id="popup-mp3">
+      <div class="popup-mp3">
+        <button id="mp3-close" class="close">
+          <i class="far fa-window-close"></i>
+        </button>
+
+        <div class="drop-zone">
+          <span class="drop-zone__prompt" data-locale="upload file">
+            Drag & Drop files here <br />
+            or <br />
+            Click to Upload
+          </span>
+          <input
+            type="file"
+            name="file"
+            id="audio_file"
+            class="drop-zone__input"
+            multiple
+          />
+        </div>
+
+        <div class="buttons">
+          <input
+            class="input-button red"
+            type="reset"
+            name="mp3-reset"
+            id="mp3-reset"
+            value="RESET"
+          />
+          <input
+            class="input-button blue"
+            type="submit"
+            name="mp3-submit"
+            id="mp3-submit"
+            value="SUBMIT"
+          />
+        </div>
+
+        <div class="selected-content"></div>
+      </div>
+    </div>
+
+    <div class="popup-container" id="popup-radio">
+      <div class="popup-radio">
+        <button id="radio-close" class="close" type="button">
+          <i class="far fa-window-close"></i>
+        </button>
+
+        <div class="row">
+          <label for="streamUrl" data-locale="Media Stream">Media Stream</label>
+          <input
+            type="text"
+            name="streamUrl"
+            id="streamUrl"
+            placeholder="Stream URL"
+          />
+        </div>
+        <div class="row">
+          <label for="streamName" data-locale="Set Stream Name"
+            >Set Stream Name</label
+          >
+          <input
+            type="text"
+            name="streamName"
+            id="streamName"
+            placeholder="Stream Name"
+          />
+        </div>
+        <div class="buttons">
+          <input
+            class="input-button red"
+            type="reset"
+            value="RESET"
+            id="radio-reset"
+          />
+          <input
+            class="input-button blue"
+            type="submit"
+            value="SUBMIT"
+            id="radio-submit"
+          />
+        </div>
+      </div>
+    </div>
+
+    <div class="popup-container" id="popup-time">
+      <div class="popup-time">
+        <button id="time-close" class="close" type="button">
+          <i class="far fa-window-close"></i>
+        </button>
+
+        <div class="row">
+          <label for="time" data-locale="Set Time">Set Time</label>
+          <input type="date" name="date" id="date" placeholder="mm-dd-yyyy" />
+          <input type="time" step="2" name="time" id="time" />
+        </div>
+
+        <div class="buttons">
+          <input
+            class="input-button red"
+            type="reset"
+            value="RESET"
+            id="set-time-reset"
+          />
+          <input
+            class="input-button blue"
+            type="submit"
+            value="SUBMIT"
+            id="set-time-submit"
+          />
+        </div>
+      </div>
+    </div>
+  </body>
+  <script src="common.js"></script>
+  <script src="./socketmessage.js?v=007"></script>
+  <script src="script.js"></script>
+  <script src="panel.js"></script>
+
+  <script type="text/javascript"></script>
+</html>

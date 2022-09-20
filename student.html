@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>Student</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"> -->
+  <link rel="stylesheet" href="stylep.css">
+  <script src="https://code.jquery.com/jquery-3.3.1.min.js"
+    integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  <!-- <script src="OVB.js"></script> -->
+  <script src="./admin/serverConfig.js"></script>
+  <script src="./admin/openvidu-browser-2.18.0.js?v=0001"></script>
+  <!-- <script src="./admin/OVB.js"></script> -->
+  <script src="./admin/app.js?v=002"></script>
+  <script src="./admin/libs/socket.io.js"></script>
+  <script src="./admin/libs/moment.min.js"></script>
+
+  <style>
+    progress {
+  width: 100%;
+  display: block; /* default: inline-block */
+  margin: 0em auto;
+  padding: 3px;
+  border: 0 none;
+  background: #444;
+  border-radius: 14px;
+}
+progress::-moz-progress-bar {
+  border-radius: 12px;
+  background: orange;
+
+}
+/* webkit */
+@media screen and (-webkit-min-device-pixel-ratio:0) {
+  progress {
+    height: 40px;
+  }
+}
+progress::-webkit-progress-bar {
+    background: transparent;
+}  
+progress::-webkit-progress-value {  
+  border-radius: 12px;
+  background: orange;
+} 
+
+.head-title {
+  margin-bottom:0;background:#000;color:#fff;padding: 2vh 0;
+}
+
+@media(max-width:576px){
+  .head-title h1 {
+    font-size: 1.75em;
+  }
+}
+  </style>
+</head>
+
+<body>
+
+  <!-- <div class="head-title text-center">
+    <h1 id="s-title">STUDENT ID: 5005</h1>
+  </div> -->
+
+  <header><h2 id="s-title">STUDENT ID: 1234</h2></header>
+
+  <!-- <div class="container" style="margin-top:1vh;margin-bottom:30px">
+    <div class="row">
+      <div class="col-sm-12">
+        <div style="height: 50vh;
+      background: #f7f5f2;
+      border-radius:10px;">
+      
+          <div style="background: rgba(255, 0, 0, 0);margin: 1em;display: grid;place-items: center;">
+            <img src="./cerkl-broadcast.png" style="border-radius: 50%;width: 100%;height: 100%;max-height: 270px;max-width: 270px;margin: 4em auto">
+          </div>
+       
+        </div>
+      </div>
+    </div>
+  </div> -->
+<main>
+
+  <section class="video_container" id="video-container">
+    <iframe
+    width="100%"
+    height="100%"
+    src="https://www.youtube.com/embed/kYY88h5J86A"
+    frameborder="0"
+    ></iframe>
+  </section>
+  
+  <div class="mobileprogress"
+  style="background: rgba(255, 0, 0, 0);display: grid;place-items: center;" -->
+  <!-- style="background: rgba(255, 0, 0, 0);margin: 0em 2em;display: grid;place-items: center;" -->
+    <progress max="100" value="80" id="progress">  
+    </progress>
+    <span id="user_volume" style="background-color: rgba(0, 0, 0, 0);color: rgb(255, 255, 255);margin-top: -40px;font-size: 4em;" >
+    <!-- style="background-color: rgba(0, 0, 0, 0);color: rgb(255, 255, 255);margin-top: -105px;font-size: 1.5em;"-->
+    80</span>
+  </div>
+</main>
+
+
+  <footer>
+     <!-- class="text-center" style="margin-top:0vh;background:#000;color:#fff"> -->
+    <!-- <h1 id="s-title">STUDENT NAME</h1> -->
+    <h2>STUDENT NAME11</h1>
+  </footer>
+  <!-- <div id="video-container">
+
+  </div> -->
+
+  <!-- <div class="text-center" style="margin-bottom:0">
+    <h1 style="color:red">STUDENT<h1>
+  </div> -->
+
+  <script src="./admin/serverConfig.js"></script>
+  <script src="./admin/socketmessage.js"></script>
+  <script src="./admin/common.js"></script>
+  <script>
+  
+    var socket = getSocket();
+    var user = getUserInfo();
+	 var url='https://api.kmbkk.com:3000';
+	 var socketConnectionTwo = io.connect(url);
+	 var  uid = 0;
+	  uid = localStorage.getItem('user-0');
+	console.log(url);
+	socketConnectionTwo.on('connect', function() {console.log('Student Connected--: '+ uid);});
+	socketConnectionTwo.on("changeStatus", (arg) => {
+	  console.log('changeStatus  :   '+uid); // world
+	  updateActiveStatus(0,uid);
+	});
+	console.log('getuserId event' );
+	socketConnectionTwo.emit("getuserId", uid);
+	
+	
+	if(!uid){
+        location.replace("index.html");
+      }
+    if(uid){
+    
+      
+      getUserInfoByUserId(uid,function(){
+        updateUserInfo(getUserInfo());
+      },function(){
+        
+        location.replace("index.html");
+      })
+    }else{
+      var globalVolume=user.user_volume/10.0;
+    }
+    var api_url = apiServer;
+    var audio;
+    
+    function onVolumeEventHandle(obj) {
+      $("#user_volume").html(obj.value);
+      $("#progress")[0].value = obj.value * 10
+
+
+      var newVolumn = obj.value / 10.0;
+      if(audio){
+        audio.volume = newVolumn
+      }
+      globalVolume = newVolumn
+      setVideoVolume(newVolumn)
+    }
+    
+    function onScheduleHandle(event){
+      console.log("cid="+user.cid)
+      console.log("onScheduleHandle param =>",event)
+      if(!audio){
+        console.log("audio is null,nothing to do")
+        return;
+      }
+      if(event.action == 'stop'){
+        audio.pause();
+      }
+
+    }
+    function onKickEventHandle() {
+      logout(user.userId, function () {
+        console.log("logout did ")
+        if (!window.OADNative) {
+          console.log("go index.html")
+          window.location.replace("index.html");
+        } else {
+          console.log("nothing to do")
+        }
+
+      })
+      if (window.OADNative) {
+        window.OADNative.exit();
+      } else {
+        console.log("window.OADNative is null")
+      }
+    }
+    function updateUserInfo(puser){
+      if(!puser){
+
+        console.error('user inso is null');
+        return;
+      }
+      globalVolume=puser.user_volume/10.0;
+      console.log("auto run function userInfo=" + JSON.stringify(puser))
+      $("#s-title").html("STUDENT ID: " + puser.userid);
+      // $("#user_volume").html(puser.user_volume);
+      // $("#progress")[0].value = puser.user_volume * 10
+
+      $("#user_volume").html(puser.user_volume);
+      $("#progress")[0].value = puser.user_volume * 10
+
+      console.log("joinSession=> userid=" + puser.cid)
+
+      joinSession("group-" + puser.cid, "student-" + puser.userid);
+    }
+
+
+    $(function () {
+      if(user){
+        updateUserInfo(user)
+      }
+	  if(!user){
+		  let uid = getUrlParam('user');
+		  console.log('url uid='+uid);
+		  if(!uid){
+			location.replace("index.html");
+		  }
+		  getUserInfoByUserId(uid,function(){
+			updateUserInfo(getUserInfo());
+		  },function(){
+			
+			location.replace("index.html");
+		  });
+	  }
+      function updateFile(id) {
+        var u = api_url + 'updateFile/?file_id=' + id;
+        $.ajax({
+          type: 'get',
+          url: u,
+          success: function (d) {}
+        })
+      }
+      window.playAudioFileLists = [];
+      var requestAudioFileLists=null;
+      var secondTimer=60;
+      function secondCheckPlay() {
+        secondTimer=secondTimer+1;
+        // if(secondTimer<60){
+        //   return;
+        // }
+        if(requestAudioFileLists != null){
+          window.playAudioFileLists = requestAudioFileLists;
+          requestAudioFileLists = null;
+        }
+        let timeNow = moment();
+        // let preAudio;
+        for (var i = 0; i < window.playAudioFileLists.length; i++) {
+          var item=window.playAudioFileLists[i];
+          let diffTime = timeNow.diff(item.mtime);
+          if (diffTime>=0&&diffTime<=1000) {
+            if(item.audio&& item.audio.paused){
+              item.audio.volume = globalVolume;
+              item.audio.play()
+              console.log('play audio :url='+item.audio.src+',volume='+globalVolume);
+            }else{
+              console.log('audio is playing')
+            }
+
+          }else{
+
+          }
+        }
+
+      }
+      window.audioCache={};
+      function generatePlayBuffer(scheduleData){
+        requestAudioFileLists = [];
+        var src = `${fileServer}/`;
+        let now = moment().subtract(10, 'seconds');
+        //console.log('generatePlayBuffer',scheduleData,scheduleData.length);
+        for(let i=0;i<scheduleData.length;i++){
+          let item = scheduleData[i];
+          let itime = moment(item.play_time);
+          if(itime.isBefore(now)){
+            continue;
+          }
+          
+          item.mtime = itime;
+          var audiofile = item.file_path;
+          var url = audiofile;
+          var isHttp = true;
+          if (audiofile.indexOf("http") != 0) {
+            url = src + audiofile
+            isHttp = false;
+          }
+          item.isHttp = isHttp;
+          // let cacheKey = item.file_name+item.play_time;
+          let cacheKey = item.file_name;
+          if(window.audioCache[cacheKey]){
+            item.audio=window.audioCache[cacheKey];
+            console.log('use cache audio')
+          }else{
+            item.audio =  new Audio(url);
+            window.audioCache[cacheKey] = item.audio;
+            console.log('create new audio');
+          }
+          
+          requestAudioFileLists.push(item); 
+        }
+       // console.log('generatePlayBuffer audioFileLists size='+requestAudioFileLists.length);
+      }
+      function getSchedules() {
+        let user = getUserInfo();
+        if(!user){
+          return;
+        }
+        var u = api_url + '/getSchedules/?user_id=' + user.cid + "&t=" + Date.parse(new Date());
+        
+        $.ajax({
+          type: 'get',
+          url: u,
+          success: function (d) {
+            if (d.length > 0) {
+              $('#audios').html("");
+              generatePlayBuffer(d);
+            }else{
+              requestAudioFileLists = [];
+            }
+          },
+          error: function (err) {
+            console.log('getSchedules error => ' + JSON.stringify(err))
+            // alert("getSchedules error");
+          }
+        });
+      }
+      setInterval(function () {
+        getSchedules();
+      }, 10000)
+      setInterval(function(){
+        secondCheckPlay();
+      },10000)
+    });
+  </script>
+</body>
+
+</html>

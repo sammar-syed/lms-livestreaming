@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <title>WebRTC - Radio Teacher</title>
+
+  <script src="https://code.jquery.com/jquery-3.3.1.min.js"
+    integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+
+  <!-- Bootstrap core CSS -->
+  <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="style1.css" rel="stylesheet">
+
+  <script src="./libs/socket.io.js"></script>
+  <!-- Bootstrap core JavaScript -->
+  <script src="vendor/jquery/jquery.min.js"></script>
+  <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="vendor/jquery/settings.js"></script>
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+</head>
+
+<body>
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand-lg navbar-light static-top">
+    <div class="container">
+      <a class="navbar-brand logo" href="#">WebRTC - Radio Teacher</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive"
+        aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse " id="navbarResponsive">
+        <ul class="navbar-nav ml-auto">
+          <li>
+            <button id="logout" style="margin-top: 2px;float: right;" type="button" class="btn btn-danger btn-sm">
+              Log Out
+            </button>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Page Content -->
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-6 col-md-6 col-sm-6 col-xl-6 clearfix">
+        <div class="left-first">
+          <div class="row box-border-title padding-bottom-reducer margin-top-reducer">
+            <span class="box-title">Student List</span>
+            <a id="refreshContacts" href="#"
+              style="position: absolute;top: -14px;background: #fff;left: 80%;padding: 0 5px;color: black;"><img
+                style="width:20px;margin-right: 5px;" src="vendor/img/refresh.jpg">Refresh</a>
+            <ul id="contactList" style="height: 81vh;list-style-type: none;margin: 0; padding: 0;" class="My-contacts">
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-6 col-md-6 col-sm-6 col-xl-6 clearfix">
+        <div class="row box-border-title padding-bottom-reducer margin-top-reducer">
+          <span class="box-title">Upload Audio File</span>
+          <div class="form-group">
+            <label for="exampleInputEmail1">Choose File</label>
+            <input type="file" class="form-control" id="audio_file" placeholder="Audio File">
+          </div>
+          <div class="form-group">
+            <label for="exampleInputEmail1">Time to Play</label>
+            <input type="datetime-local" class="form-control" id="playtime">
+          </div>
+          <div class="form-group">
+            <input class="btn btn-secondary inBtn" id="upload" type="button" name="commit" value="Create">
+          </div>
+        </div>
+        <div class="row box-border-title padding-bottom-reducer margin-top-reducer">
+          <span class="box-title">Media File</span>
+          <div class="form-group">
+            <label for="exampleInputEmail1">Media Stream</label>
+            <input class="form-control" id="meida_stream" placeholder="Media Stream">
+          </div>
+          <div class="form-group">
+            <label for="exampleInputEmail1">Time to Play</label>
+            <input type="datetime-local" class="form-control" id="media_playtime">
+          </div>
+          <div class="form-group">
+            <input class="btn btn-secondary inBtn" id="createMeidaStream" type="button" name="commit" value="Create">
+          </div>
+        </div>
+        <div class="row box-border-title padding-bottom-reducer">
+          <span class="box-title">Audio Files</span>
+          <a id="stopAudioPlay"
+              style="position: absolute;top: -14px;background: #fff;left: 80%;padding: 0 5px;color: black;cursor:pointer;"><img
+                style="width:20px;margin-right: 5px;" src="vendor/img/fava.png">Stop All</a>
+          <div class="form-group" id="audios" style="width:100%;height: 29vh;overflow-y: scroll;">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  </div>
+
+  
+
+  <script src="serverConfig.js"></script>
+  <script src="common.js"></script>
+  <script src="./socketmessage.js?v=007"></script>
+  <script>
+    var user;
+    var contacts = "";
+    var name;
+    var cid;
+    var url = apiServer;
+    var socket = getSocket();
+    function onKickEventHandle(){
+      logout(user.userId,function(){
+        window.location.replace("index.html");
+      })
+    }
+    $(function () {
+      
+      $("#contactList").sortable({
+        update: function (event, ui) {
+          $("#contactList li").each(function (index) {
+            var id = $(this).text().split(" - ")[1].split("Status")[0];
+            var u = url + '/sort/?sort_id=' + index + '&userid=' + id;
+            $.ajax({
+              type: 'get',
+              url: u,
+              success: function (d) {
+                console.log("Success");
+              }
+            });
+          });
+        }
+      });
+
+      $("#contactList").disableSelection();
+    });
+
+    $(document).ready(function () {
+      var p = location.search.split('user=')[1];
+      var user = p.split("&name=")[0];
+      name = p.split("&name=")[1];
+      cid = window.localStorage.getItem("cid" + user);
+
+      $("#userid").val(user);
+      $("#username").append(name);
+      $("#number").append(user);
+
+      $("#logout").click(function () {
+        changeStatus(0);
+      });
+      $("#stopAudioPlay").click(function(){
+        socket.emit("drawing", [{ "event":"audio", "msg": "kick user", "cid": cid ,"action":"stop"}]);
+      });
+      function changeStatus(v) {
+        var u = url + '/active/?active=' + v + '&userid=' + user.userid;
+        $.ajax({
+          type: 'get',
+          url: u,
+          success: function (d) {
+            window.location.replace("index.html");
+          }
+        });
+      }
+
+      $("#refreshContacts").click(function () {
+        fetchContacts();
+      });
+
+      fetchContacts();
+      function fetchContacts() {
+        contacts = "";
+        var u = url + '/users/?cid=' + cid;
+        $.ajax({
+          type: 'get',
+          url: u,
+          success: function (d) {
+            if (d.length > 0)
+              for (var u = 0; u < d.length; u++) {
+                var nm = d[u].name.toUpperCase();
+                var act = d[u].active == 1 ? ' Online' : d[u].active == 2 ? ' Busy' : ' Offline';
+                var id = d[u].userid;
+                var hidden = d[u].type != 0 ? "hidden" : "";
+                contacts += '<li id="cnt-' + id + '" ' + hidden + ' class="item-call-list simple-bg"><div style="float:left;margin-right:10px;"><div class="elps"></div><div class="elps"></div><div class="elps"></div></div><div class="left-area-status"><p class="f-weight-700">'
+                  + nm + ' - ' + id + '</p><p><span>Status :</span><span>'
+                  + act + '</span><span style="float:right;margin-top:-10px;margin-right: -50px;"><input class="user-vol" type="range" id="vol-' + id + '" name="vol" min="0" max="10" value="' + d[u].user_volume + '"></span></p></div><div style="float:right;" class="right-area-status"><a id="s-'
+                  + id + '" class="end-call-button cntbtn" style="left:0px;" href="#"><img id="usi'
+                  + id + '" src="vendor/img/' + act + '.png"></a></div><div style="height:40px;" class="right-area-status"><a id="d-'
+                  + id + '" class="end-call-button del-btn" href="#"><img hidden id="del'
+                  + id + '" src="vendor/img/del.png"></a></div></li>';
+              }
+            $(".My-contacts").html(contacts);
+          }
+        });
+      }
+
+      $(document).on("input change", ".user-vol", function () {
+        var i = $(this).attr('id');
+        var id = i.split("-")[1];
+        var volume = $(this).val();
+        var u = url + '/update_vol/?user_volume=' + volume + '&userid=' + id;
+        $.ajax({
+          type: 'get',
+          url: u,
+          success: function (d) {
+            socket.emit("drawing", [{ "msg": "volume", "volume": volume, "userid": id }]);
+          }
+        });
+      });
+
+      function uploadFiles(formData) {
+        $.ajax({
+          url: url + '/upload-file',
+          method: 'post',
+          data: formData,
+          processData: false,
+          contentType: false,
+          xhr: function () {
+            var xhr = new XMLHttpRequest();
+            xhr.upload.addEventListener('progress', function (event) {
+            });
+            return xhr;
+          }
+        }).done(handleSuccess).fail(function (xhr, status) {
+          alert(status);
+        });
+      }
+
+
+      function saveFile(name, time) {
+        console.log('saveFile name=',name,time)
+        var u = url + '/saveFile/?file_name=' + name + '&file_path=' + name + '&play_time=' + time + '&user_id=' + cid;
+        $.ajax({
+          type: 'get',
+          url: u,
+          success: function (d) {
+            console.log('will call getFiles ',d)
+            getFiles();
+          }
+        });
+      }
+
+      getFiles();
+
+      function getFiles() {
+        var u = url + '/getFiles/?user_id=' + cid;
+        $.ajax({
+          type: 'get',
+          url: u,
+          success: function (d) {
+            console.log('getFiles result=>',d)
+            $('#audios').hide();
+            $('#audios').html("");
+            if (d.length > 0) {
+              
+              var src = `${fileServer}/`;
+
+              for (var i = 0; i < d.length; i++) {
+                var audiofile = d[i].file_name;
+                var url = audiofile;
+                if(audiofile.indexOf("http")!=0){
+                  url = src+audiofile
+                }
+                // console.log('audiofile url=>'+url)
+                var date = new Date(d[i].play_time);
+                
+                date = date.toLocaleString();
+                var top = i * 60 + 40;
+                var divId = Date.parse(new Date())+Math.floor((Math.random()*1000)+1)
+                // var item=`<div style="background:#f1f3f4; margin-bottom: 5px;display: flex;flex-direction: row;justify-content: space-between;align-items: center;" id=${divId}>
+                //    <audio id="audio-player" controls="controls" src="${url}" >
+                //    </audio>
+                //    <p style="margin-top: 15px;">${date}</p>
+                //    <img class="del_file" id="file-${d[i].file_id}" src="./vendor/img/del.png" style="width:27px;">
+                //   </div>`;
+                var item=`<div style="background:#f1f3f4; margin-bottom: 5px;display: flex;flex-direction: row;align-items: center;" id=${divId}>
+                   <audio id="audio-player" controls="controls" src="${url}" style="width: 45%;">
+                   </audio>
+                   <p style="width: 45%;margin-top: 15px;">${date}</p>
+                   <div style="width: 10%;display: flex;flex-direction: row;justify-content: flex-end;">
+                    <img class="del_file" id="file-${d[i].file_id}" src="./vendor/img/del.png" style="width:27px;margin-right:10px;">
+                   </div>                   
+                  </div>`;
+                $('#audios').append(item);
+              }
+              
+            }
+            $('#audios').show();
+          }
+        });
+      }
+
+      $(document).on("click", ".del_file", function () {
+        var id = $(this).attr("id").split("-")[1];
+        deleteFile(id);
+      });
+
+      function deleteFile(file) {
+        var u = url + '/deleteFile/?file_id=' + file;
+        $.ajax({
+          type: 'get',
+          url: u,
+          success: function (d) {
+            getFiles();
+          }
+        });
+      }
+
+      function handleSuccess(data) {
+        if (data) {
+          // var time = new Date($("#playtime").val());
+          // console.log('time => ', time);
+          var time = new Date();
+          console.log('time => ', time);
+          time = time.getFullYear() + "-" + (time.getMonth() + 1) + "-" + time.getDate() + " " + time.getHours() + ":" + time.getMinutes();
+          saveFile(data.audio_file.path.split("tmp_uploads/")[1], time);
+        } else {
+          alert('No images were uploaded.')
+        }
+      }
+
+      $('#upload').on('click', function (event) {
+        event.preventDefault();
+        var files = $('#audio_file').get(0).files,
+          formData = new FormData();
+        if (files.length === 0) {
+          alert('Select atleast 1 file to upload.');
+          return false;
+        }
+        for (var i = 0; i < files.length; i++) {
+          var file = files[i];
+          formData.append('audio_file', file, file.name);
+        }
+        uploadFiles(formData);
+      });
+      $('#createMeidaStream').on('click', function (event) {
+        event.preventDefault();
+        var streamUrl = $('#meida_stream').val();
+        if (streamUrl.length === 0) {
+          alert('Stream Url is needed.');
+          return false;
+        }
+        
+        var time = new Date($("#media_playtime").val());
+        time = time.getFullYear() + "-" + (time.getMonth() + 1) + "-" + time.getDate() + " " + time.getHours() + ":" + time.getMinutes();
+        saveFile(streamUrl, time);
+      });
+
+      /*
+            $(document).on("click", ".cntbtn", function () {
+              var s = $(this).html().indexOf("Online") != -1 ? 0 : $(this).html().indexOf("Busy") != -1 ? 1 : -1;
+              if (s != -1) {
+                if (s == 0) $(this).html($(this).html().replace("Online", "Offline").replace("Online", "Offline"));
+                else $(this).html($(this).html().replace("Busy", "Online").replace("Busy", "Online"));
+                var i = $(this).attr('id');
+                var id = i.split("-")[1];
+                var u = url + '/active/?active=' + s + '&userid=' + id;
+                $.ajax({
+                  type: 'get',
+                  url: u,
+                  success: function (d) {
+                    console.log("Success");
+                  }
+                });
+              }
+            });
+          */
+
+      $(document).on("click", ".delbtn", function () {
+        var r = confirm("Are you sure you want to delete this user?");
+        if (r == true) {
+          var i = $(this).attr('id');
+          var id = i.split("-")[1];
+          var u = url + '/delUser/?userid=' + id;
+          $.ajax({
+            type: 'get',
+            url: u,
+            success: function (d) {
+              fetchContacts();
+              console.log("Success");
+            }
+          });
+        } else {
+        }
+      });
+
+      $("#change").click(function () {
+        var n = $("#cname").val();
+        var cp = $("#cpass").val();
+        var p = $("#pass").val();
+        if (p !== "" && n != "" && p == cp) {
+          var u = url + '/change/?name=' + n + '&pass=' + p;
+          $.ajax({
+            type: 'get',
+            url: u,
+            success: function (d) {
+              console.log("Success");
+              if (d.affectedRows == 1) alert("User password changed successfuly.");
+              else alert("User password change failed.");
+            }
+          });
+        }
+        else alert("Please fill all required fields correctly.");
+      });
+
+      $("#create").click(function () {
+        var n = $("#name").val();
+        var p = $("#npass").val();
+        var cp = $("#ncpass").val();
+        var nm = $("#number").val();
+        var ip = $("#cip").val();
+        if (nm.length != 4) {
+          alert("Number must contain exactly 4 digits.");
+          return;
+        }
+        var t = $("#lblusr").hasClass("active") ? 0 : 1;
+        if (p !== "" && n != "" && p == cp) {
+          var u = url + '/create/?name=' + n + '&type=' + t + '&pass=' + p + '&num=' + nm + '&cid=' + cid + '&ip=' + ip;
+          $.ajax({
+            type: 'get',
+            url: u,
+            success: function (d) {
+              if (d.affectedRows == 1) alert("User created successfuly.");
+              else alert("User creation failed.");
+            }
+          });
+        }
+        else alert("Please fill all required fields correctly.");
+      });      
+      $("#refreshAudioContacts").click(function () {
+        getFiles();
+      });
+    });
+
+  </script>
+</body>
+
+</html>

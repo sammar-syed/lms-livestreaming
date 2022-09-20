@@ -1,0 +1,102 @@
+:root {
+  --clr-orange: #f56932;
+  --clr-blue: #0a83b5;
+  --clr-darkBlue: #191d40;
+  --clr-darkGrey: rgb(61, 61, 61);
+  --clr-yellow: orange;
+}
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  outline: none;
+}
+a,
+img,
+button,
+input,
+label,
+select,
+span,
+i {
+  display: inline-block;
+}
+html {
+  font-size: 62.5%;
+}
+@media only screen and (max-width: 1030px) {
+  html {
+    font-size: 56.25%;
+  }
+}
+@media only screen and (max-width: 800px) {
+  html {
+    font-size: 50%;
+  }
+}
+body {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  color: #fff;
+  font-family: monospace;
+}
+header {
+  background: var(--clr-orange);
+}
+header,
+footer {
+  padding: 0.5rem 0;
+  text-align: center;
+  font-size: 3rem;
+}
+footer {
+  text-align: center;
+  background: var(--clr-blue);
+}
+
+main {
+  flex: 1;
+  background: var(--clr-darkBlue);
+  padding: 2rem;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+main .video_container {
+  flex: 1;
+  margin: 1.5rem 1.5rem 4rem;
+  background: #000;
+  overflow: hidden;
+  border-radius: 1rem;
+  outline: 1.5rem solid var(--clr-darkGrey);
+}
+main .progressbar_container {
+  text-align: center;
+  font-size: 3rem;
+  background: var(--clr-darkGrey);
+  border-radius: 1rem;
+  position: relative;
+}
+
+main .progressbar_container .progress_bar {
+  background: var(--clr-yellow);
+  position: absolute;
+  top: 50%;
+  left: 3px;
+  transform: translateY(-50%);
+  height: 90%;
+  width: 30%;
+  border-radius: 1rem;
+}
+
+@media only screen and (max-width: 430px) {
+  main .video_container {
+    max-height: 40rem;
+  }
+  header,
+  footer {
+    font-size: 2.5rem;
+  }
+}

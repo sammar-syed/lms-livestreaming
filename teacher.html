@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link
+      rel="stylesheet"
+      href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
+      integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p"
+      crossorigin="anonymous"
+    />
+
+    <link rel="stylesheet" href="teacher.css" />
+    <title>Teacher</title>
+    <script
+      src="https://code.jquery.com/jquery-3.3.1.min.js"
+      integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+      crossorigin="anonymous"
+    ></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <script src="./admin/openvidu-browser-2.18.0.js"></script>
+    <!-- <script src="./admin/OVB.js"></script> -->
+    <script src="./admin/serverConfig.js"></script>
+    <script src="./admin/app.js?v=003"></script>
+    <script src="./admin/libs/socket.io.js"></script>
+  </head>
+
+  <body>
+    <div class="body-section">
+      <!-- <div class="header">
+        <h1 id="s-title">MASTER ID: 5001</h1>
+      </div>
+       -->
+      <div class="main-container">
+        <div class="vedio-section">
+          <iframe
+            style="position: absolute; left: 100px; top: 90px"
+            width="200px"
+            height="200px"
+            id="small"
+            src="https://www.youtube.com/embed/LGKFRo3POAY?autoplay=1&showinfo=0&controls=1&mute=1"
+            title="YouTube video player"
+            frameborder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowfullscreen
+            controls="0"
+          >
+          </iframe>
+          <iframe
+            id="large"
+            style="height: 100vh; width: 100%"
+            src="https://www.youtube.com/embed/oHWmP3EN1v0?autoplay=1&showinfo=0&controls=1&mute=1"
+            title="YouTube video player"
+            frameborder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowfullscreen
+            controls="0"
+          >
+          </iframe>
+          <span
+            style="
+              position: absolute;
+              top: 200px;
+              right: 0;
+              display: flex;
+              flex-direction: column;
+            "
+          >
+            <span
+              id="bringLarge"
+              onclick="smallToLarge()"
+              style="
+                background-color: blue;
+                color: white;
+                padding: 20px;
+                border-radius: 50rem;
+                margin: 20px 40px;
+              "
+            >
+              Video 1
+            </span>
+            <span
+              id="bringSmall"
+              onclick="largeToSmall()"
+              style="
+                background-color: blue;
+                color: white;
+                padding: 20px;
+                border-radius: 50rem;
+                margin: 20px 40px;
+              "
+            >
+              Video 2
+            </span>
+            <span
+              style="
+                background-color: blue;
+                color: white;
+                padding: 20px;
+                border-radius: 50rem;
+                margin: 20px 40px;
+              "
+            >
+              Video 3
+            </span>
+          </span>
+        </div>
+        <div class="btn-container" style="position: absolute">
+          <div class="btn-section">
+            <button class="btn btn-1" id="speek">
+              <div class="icon" id="icon1">
+                <i class="fas fa-phone-volume"></i>
+              </div>
+            </button>
+            <button class="btn btn-2" id="start-bell">
+              <div class="icon">
+                <i class="fas fa-bell"></i>
+              </div>
+            </button>
+            <button class="btn btn-3" id="end-bell">
+              <div class="icon">
+                <i class="fas fa-bell"></i>
+              </div>
+            </button>
+            <button class="btn btn-4" id="end">
+              <div class="icon">
+                <i class="fas fa-stop"></i>
+              </div>
+            </button>
+          </div>
+        </div>
+      </div>
+      <!-- <div class="footer">
+        <h2>KYLIN TECH</h2>
+      </div> -->
+      <div id="video-container"></div>
+    </div>
+    <script src="./admin/socketmessage.js?v=007"></script>
+    <script src="./admin/common.js"></script>
+    <script src="./admin/serverConfig.js"></script>
+    <script src="teacher.js"></script>
+  </body>
+</html>

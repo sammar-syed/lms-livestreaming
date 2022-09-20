@@ -1,0 +1,635 @@
+.inBtn {
+  margin-left: 85%;
+  border-color: #b3afaf;
+}
+.form-group {
+  width: 88%;
+  margin-left: 20px;
+}
+.fs {
+  background: white;
+}
+#snackbar-in,
+#snackbar-out {
+  visibility: hidden;
+  min-width: 250px;
+  margin-left: -125px;
+  background-color: #333;
+  color: #fff;
+  text-align: center;
+  border-radius: 2px;
+  padding: 16px;
+  position: fixed;
+  z-index: 1;
+  left: 50%;
+  bottom: 30px;
+  font-size: 17px;
+}
+#snackbar-in.show,
+#snackbar-out.show {
+  visibility: visible;
+  -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
+  animation: fadein 0.5s, fadeout 0.5s 2.5s;
+}
+nav.navbar.navbar-expand-lg.navbar-light.static-top {
+  background: #eee;
+}
+.logo img {
+  width: 25px;
+  margin-right: 7px;
+}
+li.nav-item {
+  background: url("vendor/img/menu-bg.png");
+  background-repeat: no-repeat;
+  background-size: contain;
+  padding: 1px 5px;
+}
+li.nav-item a {
+  color: #fff !important;
+  font-weight: 700;
+  font-size: 12px;
+}
+li.nav-item.active {
+  background: url(vendor/img/menu-bg-hover.png);
+  background-size: contain;
+  background-repeat: no-repeat;
+}
+li.nav-item:hover {
+  background: url(vendor/img/menu-bg-hover.png);
+  background-size: contain;
+  background-repeat: no-repeat;
+}
+.box-border-title {
+  border: 1px solid #11101e;
+  margin-top: 40px;
+  position: relative;
+  padding: 25px 0;
+}
+span.box-title {
+  position: absolute;
+  top: -14px;
+  background: #fff;
+  left: 15px;
+  padding: 0 5px;
+}
+a.arrow-postion-outer {
+  position: relative;
+  top: 60px;
+}
+a.arrow-points-top,
+a.arrow-points-bottom,
+a.arrow-points-left,
+a.arrow-points-right {
+  display: inline-block;
+  cursor: pointer;
+  position: relative;
+  transition: transform 0.2s;
+}
+a.arrow-points-top:hover {
+  transform: scale(1.05);
+  transition: transform 0.2s;
+}
+a.arrow-points-bottom:hover {
+  transform: scale(1.05);
+  transition: transform 0.2s;
+}
+a.arrow-points-left:hover {
+  transform: scale(1.05);
+  transition: transform 0.2s;
+}
+a.arrow-points-right:hover {
+  transform: scale(1.05);
+  transition: transform 0.2s;
+}
+.margin-top-reducer {
+  margin-top: 25px !important;
+}
+.My-contacts {
+  display: inline-block;
+  width: 100%;
+}
+.My-contacts,
+.My-fav,
+.My-customers {
+  display: inline-block;
+  width: 100%;
+  height: 265px;
+  overflow-y: scroll;
+}
+.My-ongoing {
+  display: inline-block;
+  width: 100%;
+  height: 335px;
+  overflow-y: scroll;
+}
+.padding-bottom-reducer {
+  padding-bottom: 5px;
+}
+.item-call-list {
+  border: 1px solid #7d7d7d;
+  margin: 0 5px;
+  padding: 10px;
+  margin-bottom: 5px;
+}
+.left-area-status {
+  width: 60%;
+  float: left;
+}
+.right-area-status a img {
+  width: 40px;
+}
+.left-area-status p {
+  margin: 0;
+}
+.f-weight-700 {
+  font-weight: 700;
+}
+a.end-call-button {
+  display: inline-block;
+  position: relative;
+  top: 5px;
+  left: 10px;
+}
+a.end-call-button img:hover {
+  position: relative;
+  bottom: 1px;
+}
+.orange-bg {
+  background: #ffc107;
+}
+.simple-bg {
+  background: #afafaf;
+}
+.span4 {
+  float: left;
+  margin: 3px 3px 3px 3px;
+}
+.phone {
+  margin-top: 15px;
+  background: #fff;
+}
+.tel {
+  margin-bottom: 10px;
+  margin-top: 10px;
+  border: 1px solid #000;
+  border-radius: 0;
+}
+.num-pad {
+  padding-left: 5px;
+}
+.num {
+  height: 90px;
+  cursor: pointer;
+  border: 1px solid #000;
+  padding: 3px 3px;
+  width: 85px;
+  transition: transform 0.2s;
+}
+.num-control-button {
+  height: 60px;
+  cursor: pointer;
+  border: 1px solid #000;
+  padding: 3px 3px;
+  width: 70px;
+  transition: transform 0.2s;
+}
+.num-control-button:hover {
+  transform: scale(1.03);
+}
+.num:hover {
+  transform: scale(1.05);
+}
+.txt {
+  display: none;
+}
+.small {
+  font-size: 15px;
+}
+.btn {
+  font-weight: bold;
+  -webkit-transition: 0.1s ease-in background-color;
+  -webkit-font-smoothing: antialiased;
+  letter-spacing: 0.3px;
+}
+.btn:hover {
+  transition-property: background-color 0.2s linear 0s;
+  -moz-transition: background-color 0.2s linear 0s;
+  -webkit-transition: background-color 0.2s linear 0s;
+  -o-transition: background-color 0.2s linear 0s;
+}
+.spanicons {
+  width: 72px;
+  float: left;
+  text-align: center;
+  margin-top: 40px;
+  color: #9e9e9e;
+  font-size: 30px;
+  cursor: pointer;
+}
+.spanicons:hover {
+  color: #3498db;
+  transition-property: color 0.2s linear 0s;
+  -moz-transition: color 0.2s linear 0s;
+  -webkit-transition: color 0.2s linear 0s;
+  -o-transition: color 0.2s linear 0s;
+}
+.active {
+  color: #3498db;
+}
+.delete {
+  border: 1px solid #000;
+  color: #292929;
+  font-size: 12px;
+  height: calc(2.25rem + 2px);
+  position: relative;
+  vertical-align: bottom;
+  top: 10px;
+}
+.clear {
+  border: 1px solid #000;
+  color: #292929;
+  font-size: 12px;
+  height: calc(2.25rem + 2px);
+  position: relative;
+  vertical-align: bottom;
+  top: 10px;
+}
+.num1 {
+  background: url("vendor/img/buttons/unoBtn.png");
+  background-size: 75%;
+  background-repeat: no-repeat;
+  background-position: center center;
+}
+.num2 {
+  background: url("vendor/img/buttons/dosBtn.png");
+  background-size: 75%;
+  background-repeat: no-repeat;
+  background-position: center center;
+}
+.num3 {
+  background: url("vendor/img/buttons/tresBtn.png");
+  background-size: 75%;
+  background-repeat: no-repeat;
+  background-position: center center;
+}
+.num4 {
+  background: url("vendor/img/buttons/cuatroBtn.png");
+  background-size: 75%;
+  background-repeat: no-repeat;
+  background-position: center center;
+}
+.num5 {
+  background: url("vendor/img/buttons/cincoBtn.png");
+  background-size: 75%;
+  background-repeat: no-repeat;
+  background-position: center center;
+}
+.num6 {
+  background: url("vendor/img/buttons/seisBtn.png");
+  background-size: 75%;
+  background-repeat: no-repeat;
+  background-position: center center;
+}
+.num7 {
+  background: url("vendor/img/buttons/sieteBtn.png");
+  background-size: 75%;
+  background-repeat: no-repeat;
+  background-position: center center;
+}
+.num8 {
+  background: url("vendor/img/buttons/ochoBtn.png");
+  background-size: 75%;
+  background-repeat: no-repeat;
+  background-position: center center;
+}
+.num9 {
+  background: url("vendor/img/buttons/nueveBtn.png");
+  background-size: 75%;
+  background-repeat: no-repeat;
+  background-position: center center;
+}
+.num0 {
+  background: url("vendor/img/buttons/ceroBtn.png");
+  background-size: 75%;
+  background-repeat: no-repeat;
+  background-position: center center;
+}
+.numstar {
+  background: url("vendor/img/buttons/puntoBtn.png");
+  background-size: 75%;
+  background-repeat: no-repeat;
+  background-position: center center;
+}
+.numhash {
+  background: url("vendor/img/buttons/numeralBtn.png");
+  background-size: 75%;
+  background-repeat: no-repeat;
+  background-position: center center;
+}
+.numcall {
+  background: url("vendor/img/buttons/call-icon.png");
+  background-size: 75%;
+  background-repeat: no-repeat;
+  background-position: center center;
+}
+.numdnd {
+  background: url("vendor/img/buttons/dnd.png");
+  background-size: 75%;
+  background-repeat: no-repeat;
+  background-position: center center;
+}
+.numhangupall {
+  background: url("vendor/img/buttons/hangupall.png");
+  background-size: 75%;
+  background-repeat: no-repeat;
+  background-position: center center;
+}
+.call-controls.num-pad-control {
+  margin-left: 29px;
+}
+.general-seetings {
+  display: inline-block;
+  width: 100%;
+  text-align: center;
+  padding: 0 15px;
+}
+a.auto-answer-call {
+  background: url("vendor/img/buttons/auto-answer.png");
+  background-size: 65%;
+  background-repeat: no-repeat;
+  background-position: center center;
+  position: relative;
+  width: auto;
+  text-align: center;
+  margin: auto;
+  height: 65px;
+  width: 220px;
+  display: inline-block;
+}
+a.auto-answer-call:hover {
+  background: url("vendor/img/buttons/auto-anser-active.png");
+  background-repeat: no-repeat;
+  background-repeat: no-repeat;
+  background-position: center center;
+  position: relative;
+  width: auto;
+  text-align: center;
+  margin: auto;
+  height: 65px;
+  width: 220px;
+  display: inline-block;
+}
+.text-setting-dispaly-out {
+  display: none;
+}
+.elps {
+  width: 5px;
+  height: 5px;
+  background-color: rgb(184, 196, 166);
+  margin: 6px 0;
+  border-radius: 3px;
+}
+.img-responsive {
+  width: 100%;
+}
+.row {
+  margin-right: 0 !important;
+  margin-left: 0 !important;
+}
+@media only screen and (min-width: 576px) and (orientation: portrait) {
+  .row {
+    margin-right: -15 !important;
+    margin-left: -15 !important;
+  }
+  .delete {
+    padding: 10px 8px;
+  }
+  .img-responsive {
+    width: 100% !important;
+  }
+  .container {
+    max-width: 100% !important;
+  }
+  .My-contacts {
+    height: 200px;
+  }
+  .My-ongoing {
+    height: 265px;
+  }
+  .clear {
+    width: initial !important;
+  }
+  .num {
+    height: 73px;
+    width: 80px;
+  }
+  a#refreshContacts {
+    left: 250px;
+  }
+  .span4 {
+  }
+}
+@media only screen and (min-device-width: 768px) and (max-device-width: 992px) and (orientation: portrait) {
+  a.arrow-postion-outer {
+    top: 23px;
+  }
+  .delete,
+  .clear {
+    width: 100% !important;
+  }
+  .num-pad {
+    padding-left: 0;
+    margin-top: 5px;
+  }
+  .My-contacts {
+    height: 402px;
+  }
+  a#refreshContacts {
+    left: 165px !important;
+  }
+  .num {
+    height: 65px !important;
+    width: 52px !important;
+  }
+  .num-control-button {
+    height: 54px !important;
+    width: 42px !important;
+  }
+  .tel {
+    height: 80px;
+  }
+}
+@media only screen and (min-width: 768px) and (max-device-width: 1023px) and (orientation: landscape) {
+  .delete {
+    padding: 0 0 !important;
+  }
+  .container {
+    max-width: 100% !important;
+  }
+  .span4 {
+  }
+  .My-contacts {
+    height: 400px;
+  }
+  .My-ongoing {
+    height: 315px;
+  }
+  .num {
+    height: 85px;
+    width: 100px;
+  }
+  .num-control-button {
+    height: 80px;
+    width: 80px;
+  }
+}
+@media only screen and (min-width: 992px) {
+  .container {
+    max-width: 100% !important;
+  }
+  .My-contacts,
+  .My-fav {
+    height: 265px;
+  }
+  .My-ongoing {
+    height: 300px;
+  }
+}
+@media only screen and (min-width: 1200px) {
+  .container {
+    max-width: 100% !important;
+  }
+  .num {
+    height: 90px;
+    width: 100px;
+  }
+  .num-pad {
+    width: 100%;
+    display: inline-block;
+    margin: 0 auto;
+    text-align: center;
+    position: relative;
+    padding: 0 36px;
+  }
+  .call-controls.num-pad-control {
+    margin-left: 0;
+    padding: 0 77px;
+    width: 100%;
+    margin: auto;
+    text-align: center;
+  }
+  .span4 {
+  }
+}
+@media screen and (min-width: 1366px) {
+  .container {
+    max-width: 100% !important;
+  }
+  .My-contacts {
+    height: 288px;
+  }
+  .My-ongoing {
+    height: 320px;
+  }
+  .span4 {
+  }
+  .num {
+    height: 90px;
+    width: 110px;
+  }
+  .num-control-button {
+    height: 90px;
+    width: 100px;
+  }
+}
+@media screen and (min-width: 1400px) {
+  .container {
+    max-width: 100% !important;
+  }
+  .My-contacts {
+    height: 335px;
+  }
+  .My-ongoing {
+    height: 375px;
+  }
+  .span4 {
+  }
+  .num {
+    height: 100px;
+    width: 115px;
+  }
+  .num-control-button {
+    height: 90px;
+    width: 100px;
+  }
+}
+@media screen and (min-width: 1600px) {
+  .container {
+    max-width: 100% !important;
+  }
+  .My-contacts {
+    height: 400px;
+  }
+  .My-ongoing {
+    height: 433px;
+  }
+  .span4 {
+  }
+  .num {
+    height: 115px;
+    width: 135px;
+  }
+  .num-control-button {
+    height: 90px;
+    width: 100px;
+  }
+}
+@media screen and (min-width: 1900px) {
+  .container {
+    max-width: 100% !important;
+  }
+  .My-contacts {
+    height: 600px;
+  }
+  .My-ongoing {
+    height: 633px;
+  }
+  .span4 {
+  }
+  .num {
+    height: 155px;
+    width: 175px;
+  }
+  .num-control-button {
+    height: 130px;
+    width: 155px;
+  }
+}
+@media screen and (min-width: 2300px) {
+  .container {
+    max-width: 100% !important;
+  }
+  .My-contacts {
+    height: 870px;
+  }
+  .My-ongoing {
+    height: 900px;
+  }
+  .span4 {
+  }
+  .num {
+    height: 223px;
+    width: 245px;
+  }
+  .num-control-button {
+    height: 130px;
+    width: 155px;
+  }
+  .f-weight-700 {
+    font-weight: 700;
+    font-size: 28px;
+  }
+  .item-call-list {
+    padding: 23px 0 35px 12px;
+  }
+}

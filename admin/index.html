@@ -1,0 +1,437 @@
+<html>
+
+<head>
+  <title>Admin Login</title>
+  <link rel="shortcut icon" href="/icon.jpeg">
+  <meta name="viewport" content="width=device-width, initial-scale=1" charset="utf-8">
+  <!-- Bootstrap -->
+  <script src="https://code.jquery.com/jquery-3.3.1.min.js"
+    integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+    integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+    integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+    crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <!-- Bootstrap -->
+  <!-- <link rel="stylesheet" href="style.css" type="text/css" media="screen"> -->
+  <script src="serverConfig.js"></script>
+  <script src="common.js"></script>
+  <script>
+    var user;
+    $(function () {
+      $("#login").click(function () {
+        var name = $("#name").val();
+        var pass = $("#pass").val();
+        login(name,pass,function(data){
+            console.log('login return:', data)
+            if (data != undefined && data.length > 0) {
+              onAdminLoginSuccess(data[0])
+            }
+            else {
+              alert('Unable to login. Please make sure you are not already logged in on other devices.');
+            }
+        })
+        // var url = apiServer+'/login?name=' + name + '&password=' + pass;
+        // if (name != undefined && name != "" && pass != undefined && pass != "") {
+        //   $.ajax({
+        //     type: 'get',
+        //     url: url,
+        //     success: function (data) {
+        //       console.log('request url', url)
+        //       console.log('return', data)
+        //       if (data != undefined && data.length > 0) {
+        //         if (data[0].type == 1) {
+        //           window.localStorage.setItem("cid" + data[0].userid, data[0].cid);
+        //           window.location.replace("panel.html?user=" + data[0].userid + "&name=" + name);
+        //         }
+        //         else if (data[0].type == 3) {
+        //           window.location.replace("superadmin.html?user=" + data[0].userid + "&name=" + name);
+        //         }
+        //         else {
+        //           alert("Invalid credentials.");
+        //         }
+        //       }
+        //       else {
+        //         alert('User does not exist.');
+        //       }
+        //     }
+        //   })
+        // }
+        // else {
+        //   alert("Username and password fields must be filled correctly.");
+        // }
+      });
+    });
+
+    $(document).ready(function () {
+      $('input[type=button]').focus();
+
+      $('input[type=text], input[type=password]').change(function (e) {
+        $('input[type=button]').focus();
+      });
+    });
+
+  </script>
+</head>
+
+<!-- <body>
+  <div id="main-container" class="container">
+    <div id="join">
+      <form class="form-group" onsubmit="">
+
+        <link href="https://fonts.googleapis.com/css?family=Exo" rel="stylesheet">
+        <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+        <div class="container1">
+          <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+          <div class="form-group">
+            <h3>Login into admin Account</h3>
+            <hr>
+          </div>
+          <div class="form-group">
+            <label for="exampleInputEmail1">User Name</label>
+            <input type="text" class="form-control" id="name" placeholder="User Name">
+          </div>
+          <div class="form-group">
+            <label for="exampleInputPassword1">Password</label>
+            <input type="password" class="form-control" id="pass" placeholder="Password">
+          </div>
+          <input class="btn btn-default" id="call" type="button" name="commit" value="Login">
+
+        </div>
+      </form>
+
+
+    </div>
+  </div>
+  <div class="container">
+    <div class="footer-text privacy-text">
+      <p>All Rights Reserved 2021</p>
+    </div>
+  </div>
+
+</body> -->
+
+
+
+<style>
+  body {
+   /* background-image: linear-gradient(to right top, #051937, #004d7a, #008793, #00bf72, #a8eb12); */
+   background: url('./bg.jpg') center center / cover no-repeat
+ }
+
+.head{
+ color: rgb(255, 255, 255);
+}
+
+.container1 {
+   width: 70%;
+   max-width: 1200px;
+   margin: 0 auto;
+   text-align: left;
+   box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+   margin-top: 60px;
+   
+   display: flex;
+
+   height: auto;
+   min-height: 450px;
+   max-height: 451px;
+   background: rgb(0, 235, 137);
+ }
+
+ .img-container{
+   width: 45%;
+   /* background: red; */
+   min-height: 450px;
+   max-height: 451px;
+   background: url('./bgl.jpg') center center / cover no-repeat
+ }
+ .login-container{
+ /* padding: 60px 10%; */
+ /* padding: 0px 10%; */
+ width: 55%;
+   min-height: 450px;
+   max-height: 451px;
+ background: rgba(18,42,134,255)
+}
+
+
+.login-btn {
+position: relative;
+display: inline-block;
+padding: 10px 20px;
+color: #03e9f4;
+font-size: 16px;
+text-decoration: none;
+text-transform: uppercase;
+overflow: hidden;
+transition: .5s;
+/* margin-top: 40px; */
+letter-spacing: 4px;
+background: rgba(0, 0, 0, 0);
+border: none;
+}
+
+.login-btn:hover {
+background: #03e9f4;
+color: #fff;
+border-radius: 5px;
+box-shadow: 0 0 5px #03e9f4,
+           0 0 25px #03e9f4,
+           0 0 50px #03e9f4,
+           0 0 100px #03e9f4;
+}
+
+.login-btn span {
+position: absolute;
+display: block;
+}
+
+.login-btn span:nth-child(1) {
+top: 0;
+left: -100%;
+width: 100%;
+height: 2px;
+background: linear-gradient(90deg, transparent, #03e9f4);
+animation: btn-anim1 1s linear infinite;
+}
+
+@keyframes btn-anim1 {
+0% {
+ left: -100%;
+}
+50%,100% {
+ left: 100%;
+}
+}
+
+.login-btn span:nth-child(2) {
+top: -100%;
+right: 0;
+width: 2px;
+height: 100%;
+background: linear-gradient(180deg, transparent, #03e9f4);
+animation: btn-anim2 1s linear infinite;
+animation-delay: .25s
+}
+
+@keyframes btn-anim2 {
+0% {
+ top: -100%;
+}
+50%,100% {
+ top: 100%;
+}
+}
+
+.login-btn span:nth-child(3) {
+bottom: 0;
+right: -100%;
+width: 100%;
+height: 2px;
+background: linear-gradient(270deg, transparent, #03e9f4);
+animation: btn-anim3 1s linear infinite;
+animation-delay: .5s
+}
+
+@keyframes btn-anim3 {
+0% {
+ right: -100%;
+}
+50%,100% {
+ right: 100%;
+}
+}
+
+.login-btn span:nth-child(4) {
+bottom: -100%;
+left: 0;
+width: 2px;
+height: 100%;
+background: linear-gradient(360deg, transparent, #03e9f4);
+animation: btn-anim4 1s linear infinite;
+animation-delay: .75s
+}
+
+@keyframes btn-anim4 {
+0% {
+ bottom: -100%;
+}
+50%,100% {
+ bottom: 100%;
+}
+}
+
+#join{
+/* margin: 8.25em 0 0 0 ; */
+position: relative;
+top: 125%;
+/* -webkit-transform: translateY(-50%); */
+/* -ms-transform: translateY(-50%); */
+transform: translateY(-0%);
+/* margin: 0; */
+/* background: red; */
+}
+input::placeholder{
+color: #fff !important;
+}
+/* Resposive styles */
+@media(max-width:1900px){
+#join{
+margin: 6em 0 0 0 ;
+/* background: red; */
+
+/* top: 32.5%; */
+/* 
+-webkit-transform: translateY(-0%);
+-ms-transform: translateY(-0%);
+transform: translateY(-0%); */
+}
+}
+
+@media(max-width:1700px){
+
+/* #join{
+margin: 5em 0 0 0 ;
+} */
+@media(max-width:1500px){
+#main-container{
+max-height: 200vh !important;
+}
+
+}
+
+}
+@media(max-width:1000px){
+input{
+font-size: 1em !important;
+}
+}
+@media(max-width:576px){
+#join{
+margin: 0 ;
+}
+.head{
+font-size: 2vw !important;
+}
+.head h1, h2{
+margin: .1em 0 !important;
+}
+.container1 {
+width: 99%;
+flex-direction: column-reverse;
+justify-content: flex-start;
+max-height: auto;
+
+min-height: 450px;
+max-height: 650px;
+margin: 20px 0;
+padding: 0;
+background: rgba(18,42,134,255);
+}
+
+.img-container{
+width: 100%;
+/* background: red; */
+min-height: 201px;
+max-height: 225px;
+background: url('./bgl.jpg') center center / cover no-repeat;
+background-position: 0 0px;
+}
+.login-container{
+/* padding: 60px 10%; */
+/* padding: 0px 10%; */
+width: 100%;
+min-height: 220px;
+max-height: 221px;
+background: rgba(18,42,134,255);
+/* background: red; */
+}
+.form-group.user,
+.form-group.pass{
+margin: 1em 2em !important;
+/* display: flex;margin: 0 !important;border: 1px solid #03e9f4; */
+}
+
+#call{
+/* margin: 0em 1.25em !important; */
+}
+/* .login-container{
+min-height: 350px !important;
+max-height: 400px !important;
+} */
+}
+@media(max-width:350px){
+#main-container{
+max-height: 99vh;
+}
+#footer{display: none;}
+}
+
+</style>
+<body>
+  <div id="main-container" class="container">
+
+    <div class="head" style="text-align: center; margin: 5em 0 0em 0;">
+      <h1 style="font-family: 'Scheherazade New', serif; font-size: 3em;font-weight: 200;margin: 1em 0;letter-spacing: 3px;">WEB AUDIO SYSTEM
+      <h2 style="font-family:  Arial, Helvetica, sans-serif; font-size: 1.25em;font-weight: 600;letter-spacing: 3px;">POWERD BY RASHIT KATHIRIDA</h2>
+    </div>
+
+    <div id="join">
+      <form class="form-group" onsubmit="">
+        <link href="https://fonts.googleapis.com/css?family=Exo" rel="stylesheet">
+        <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+        <div class="container1"  style="box-shadow: 0px 0px 5px 5px rgba(255, 255, 255, .3);">
+            <div class="img-container">
+    
+            </div>
+          <div class="login-container">
+              <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+              <!-- <div class="form-group">
+                <h3>Login into admin Account</h3>
+                <hr>
+              </div> -->
+              <div class="form-group user" style="display: flex;margin: 6.9em 2em 4em 2em;border: 1px solid #03e9f4;">
+                <!-- <label for="exampleInputEmail1">User Name</label> -->
+                <img src="./usericon.png" alt="" width="50px" height="50px">
+                <input type="text" class="form-control" id="name" placeholder="USER NAME" style="height:50px;background-color: rgba(18,42,135,255);font-size: 2em;border: none;color: #fff !important;">
+              </div>
+              <div class="form-group pass" style="display: flex;margin: 2em 2em 3em 2em;border: 1px solid #03e9f4;">
+                <!-- <label for="exampleInputPassword1">Password</label> -->
+                <img src="./passicon.png" alt=""  width="50px" height="50px">
+                <input type="password" class="form-control" id="pass" placeholder="PASSWORD" style="height:50px;background-color: rgba(18,42,135,255);font-size: 2em;border: none;color: #fff !important;">
+              </div>
+              <!-- <input class="btn btn-default" id="login" type="button" name="commit" value="Login"> -->
+              <div id="login" class="form-group pass" style="display: flex;margin: 3em 2em 3em 2em;border: none;"
+              >
+              
+              <!-- class="login-btn" type="button" -->
+              <button 
+              class="btn btn-default login-btn" id="login" type="button" name="commit" style="height:100%;margin: 0em;width: 100%;"
+              >
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    Login
+                  </button>
+
+              </div>
+
+        </div>
+
+        </div>
+      </form>
+    </div>
+  </div>
+  <div class="container" id="footer">
+    <div class="footer-text privacy-text">
+    
+    </div>
+  </div>
+
+</body>
+
+
+</html>
